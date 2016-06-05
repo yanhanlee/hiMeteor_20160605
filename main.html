@@ -6,16 +6,12 @@
 <body>
 	<h2>聊天室</h2>
 	<hr>
-	
-	<th>
-		<tr></tr>
-	</th>
+
 	{{#each messages}}
 		{{>guestbook }}
 	{{/each}}
 
-	<textarea name="text"></textarea>
-	<button name = "send">送出</button>
+	{{>input}}
 
 </body>
 
@@ -23,9 +19,11 @@
 	
 	{{#if text}}
 		{{text}} 
-		{{time}}
-		{{from}}
+		{{createdAt}}
 	{{/if}}
 	<hr>
+</template> 
 
+<template name = "input">
+	Message : <input type="text" name ="messages" id="messages" value="">
 </template>
