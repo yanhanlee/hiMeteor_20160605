@@ -1,4 +1,6 @@
+
 Messages = new Mongo.Collection('messages')
+
 
 sampleMessage = [
 			{text :'text1' , num : 1 ,createdAt : '20160605 12:00:00', from :'jsInput'},
@@ -16,15 +18,11 @@ if(Meteor.isClient){
 	Template.body.events({
 		'change #messages': function(event){
 			let text = $(event.target).val()
-			let num = Messages.find().count()+1
 			$(event.target).val('')
 			let messages ={
-				text,
-				num,
-				from:'db',
-				createdAt: new Date()
+				text
 			}
-			Messages.insert(messages)
+			Meteor.call('createMessages', messages)
 		}
 		
 	})
@@ -38,4 +36,18 @@ if(Meteor.isServer){
 			Messages.insert(messages)
 		}
 	}
+
+	Meteor.methods({
+		createMessages : function(messages){
+			let user = Meteor.user()
+			if(user){
+				messages.userId = Meteor.user().emails[0].address
+				messages.num = Messages.find().count()+1
+				messages.createdAt = new Date()
+				messages.from = 'db'
+				Messages.insert(messages)
+			}
+		}
+
+	})
 }

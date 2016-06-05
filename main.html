@@ -5,20 +5,33 @@
 
 <body>
 	<h2>聊天室</h2>
+	登入帳號
+
+	{{>loginButtons}}
+	<br>
 	<hr>
+	{{#if currentUser}}	
+		
+		{{#each messages}}
+			{{>guestbook }}
+		{{/each}}
+			<hr>
+			{{>input}}
+		
+		
 
-	{{#each messages}}
-		{{>guestbook }}
-	{{/each}}
+	{{/if}}
+	
 
-	{{>input}}
 
 </body>
 
 <template name = "guestbook">
 	
 	{{#if text}}
-		{{text}} 
+		
+		{{text}} <br>
+		{{userId}} 
 		{{createdAt}}
 	{{/if}}
 	<hr>
