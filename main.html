@@ -1,27 +1,30 @@
 <head>
-	<title> this is title </title>
+	<title> 聊天室 </title>
 
 </head>
 
 <body>
-	<h2>Chat Chat</h2>
+	<h2>聊天室</h2>
 	<hr>
-	<h2>hi KKD!</h2>
-	<h2>hi lee!</h2>
-
-	{{>guestbook text="2" num = 3}}
-	{{>guestbook text="2" num = 3}}
-
+	
+	<th>
+		<tr></tr>
+	</th>
 	{{#each messages}}
-		{{>guestbook}}
+		{{>guestbook }}
 	{{/each}}
+
+	<textarea name="text"></textarea>
+	<button name = "send">送出</button>
 
 </body>
 
 <template name = "guestbook">
-	<h2>template context</h2>
-	{{text}}
-	{{num}}
-	{{num2}}
+	
+	{{#if text}}
+		{{text}} 
+		{{time}}
+	{{/if}}
 	<hr>
+
 </template>
