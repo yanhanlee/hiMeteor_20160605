@@ -11,9 +11,11 @@ sampleMessage = [
 if(Meteor.isClient){
 	Template.body.helpers({
 		messages:function(){
-			return Messages.find({}, { sort : { createdAt : -1} ,limit : 5})
+			return Messages.find({}, { limit : 5})
 		}
 	})
+
+	Meteor.subscribe("messages")
 
 	Template.body.events({
 		'change #messages': function(event){
@@ -43,11 +45,15 @@ if(Meteor.isServer){
 			if(user){
 				messages.userId = Meteor.user().emails[0].address
 				messages.num = Messages.find().count()+1
-				messages.createdAt = new Date()
+				messages.createdAt = moment().format("hh:mm:ss")
 				messages.from = 'db'
 				Messages.insert(messages)
 			}
 		}
 
+	})
+
+	Meteor.publish("messages", function(){
+		 return Messages.find({}, { sort : { createdAt : -1} ,limit : 3})
 	})
 }

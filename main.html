@@ -17,12 +17,9 @@
 		{{/each}}
 			<hr>
 			{{>input}}
-		
-		
-
+			
 	{{/if}}
 	
-
 
 </body>
 
@@ -30,11 +27,10 @@
 	
 	{{#if text}}
 		
-		{{text}} <br>
-		{{userId}} 
-		{{createdAt}}
+		[{{createdAt}}] {{userId}} : {{text}} <br>
+		
 	{{/if}}
-	<hr>
+	
 </template> 
 
 <template name = "input">
