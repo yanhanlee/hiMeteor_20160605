@@ -8,8 +8,20 @@ sampleMessage = [
 			{text :'text3' , num : 4 ,createdAt : '20160605 08:00:00', from :'jsInput'}
 ]
 
+Router.route( '/', function(){
+	this.render('chatroom')
+})
+
 if(Meteor.isClient){
-	Template.body.helpers({
+
+	Meteor.startup(function(){
+		Accounts.ui.config({
+		passwordSignupFields:'USERNAME_ONLY',
+		});
+	});
+
+
+	Template.chatroom.helpers({
 		messages:function(){
 			return Messages.find({}, { limit : 5})
 		}
@@ -17,7 +29,7 @@ if(Meteor.isClient){
 
 	Meteor.subscribe("messages")
 
-	Template.body.events({
+	Template.chatroom.events({
 		'change #messages': function(event){
 			let text = $(event.target).val()
 			$(event.target).val('')
@@ -43,7 +55,7 @@ if(Meteor.isServer){
 		createMessages : function(messages){
 			let user = Meteor.user()
 			if(user){
-				messages.userId = Meteor.user().emails[0].address
+				messages.userId = Meteor.user().username
 				messages.num = Messages.find().count()+1
 				messages.createdAt = moment().format("hh:mm:ss")
 				messages.from = 'db'

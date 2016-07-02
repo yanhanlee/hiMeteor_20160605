@@ -3,15 +3,14 @@
 
 </head>
 
-<body>
+<!-- <body>
 	<h2>聊天室</h2>
 	登入帳號
 
 	{{>loginButtons}}
 	<br>
 	<hr>
-	{{#if currentUser}}	
-		
+	{{#if currentUser}}			
 		{{#each messages}}
 			{{>guestbook }}
 		{{/each}}
@@ -19,9 +18,7 @@
 			{{>input}}
 			
 	{{/if}}
-	
-
-</body>
+</body> -->
 
 <template name = "guestbook">
 	
@@ -35,4 +32,19 @@
 
 <template name = "input">
 	Message : <input type="text" name ="messages" id="messages" value="">
+</template>
+
+<template name="chatroom">
+	{{>loginButtons}}
+	<br>
+	<hr>
+	{{#if currentUser}}			
+		{{#each messages}}
+			{{>guestbook }}
+		{{/each}}
+			<hr>
+			{{>input}}
+			
+	{{/if}}
+	<h2>From chatroom</h2>
 </template>
