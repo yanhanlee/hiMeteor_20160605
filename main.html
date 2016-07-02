@@ -48,3 +48,22 @@
 	{{/if}}
 	<h2>From chatroom</h2>
 </template>
+
+<template name="home">
+     {{> loginButtons}}
+     <hr>
+     <form>
+         Create Chatroom: <input type="text" id="createChatroom">
+     </form>
+     {{# each chatrooms}}
+         {{> room}}
+     {{/each}}
+</template>
+
+<template name="room">
+	<hr>
+	<h2>
+		{{chatroomName}}
+	</h2>
+		create by:{{userId}}
+</template>

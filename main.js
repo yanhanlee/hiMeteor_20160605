@@ -1,6 +1,7 @@
 
 Messages = new Mongo.Collection('messages')
-
+Chatrooms = new Mongo.Collection('chatrooms')
+ 
 
 sampleMessage = [
 			{text :'text1' , num : 1 ,createdAt : '20160605 12:00:00', from :'jsInput'},
@@ -9,7 +10,7 @@ sampleMessage = [
 ]
 
 Router.route( '/', function(){
-	this.render('chatroom')
+	this.render('home')
 })
 
 if(Meteor.isClient){
@@ -19,7 +20,6 @@ if(Meteor.isClient){
 		passwordSignupFields:'USERNAME_ONLY',
 		});
 	});
-
 
 	Template.chatroom.helpers({
 		messages:function(){
@@ -41,6 +41,22 @@ if(Meteor.isClient){
 		
 	})
 
+	Template.home.helpers({
+         chatrooms() {
+             return Chatrooms.find({}, {sort: {createdAt: -1}})
+         }
+     })
+
+    Template.home.events({
+         "submit form": (e, t) => {
+             e.preventDefault()
+             let chatroomName = $(e.target).find("#createChatroom").val()
+             $("input").val("")
+             let chatroom = {chatroomName}
+             Meteor.call("createChatroom", chatroom)
+          }
+      })
+
 }
 
 
@@ -61,11 +77,24 @@ if(Meteor.isServer){
 				messages.from = 'db'
 				Messages.insert(messages)
 			}
+		},
+
+		createChatroom : function(chatroom){
+			let user = Meteor.user()
+			if(user){
+				chatroom.userId = Meteor.user().username
+				chatroom.createdAt = moment().format("hh:mm:ss")
+				Chatrooms.insert(chatroom)
+			}
 		}
 
 	})
 
 	Meteor.publish("messages", function(){
 		 return Messages.find({}, { sort : { createdAt : -1} ,limit : 3})
+	})
+
+	Meteor.publish(null, function(){
+		 return Chatrooms.find({}, { sort : { createdAt : -1} ,limit : 3})
 	})
 }
